@@ -18,7 +18,6 @@ export const Login = () => {
         }
         
         if (user) {
-            alert('register success')
             navigate("/dashboard")
         }
     }, [loading, user])

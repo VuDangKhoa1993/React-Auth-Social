@@ -15,7 +15,9 @@ import {
     getDocs,
     collection,
     where,
-    addDoc
+    addDoc,
+    setDoc,
+    doc
 } from 'firebase/firestore'
 
 const firebaseConfig = {
@@ -41,11 +43,12 @@ const signInWithGoogle = async () => {
         const q = query(collection(db, "users"), where("uid", "==", user.uid))
         const docs = await getDocs(q)
         if (docs.docs.length === 0) {
-            await addDoc(collection(db, "users"), {
+            const docRef = doc(collection(db, "users"))
+            await setDoc(docRef, {
                 uid: user.uid,
                 name: user.displayName,
                 authProvider: "google",
-                email: user.email
+                email: user.email 
             })
         }
     } catch (e) {
@@ -95,6 +98,7 @@ const logout = async () => {
 
 export {
     auth,
+    db,
     signInWithGoogle,
     loginWithEmailAndPassword,
     registerWithEmailAndPassword,
