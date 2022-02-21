@@ -6,7 +6,8 @@ import {
     createUserWithEmailAndPassword,
     sendPasswordResetEmail,
     signOut,
-    getAuth
+    getAuth,
+    FacebookAuthProvider
 } from 'firebase/auth'
 
 import {
@@ -36,6 +37,8 @@ const auth = getAuth(app)
 const db = getFirestore(app)
 
 const googleProvider = new GoogleAuthProvider()
+const facebookProvider = new FacebookAuthProvider()
+
 const signInWithGoogle = async () => {
     try {
         const res = await signInWithPopup(auth, googleProvider)
@@ -54,6 +57,28 @@ const signInWithGoogle = async () => {
     } catch (e) {
         console.log(e)
         alert(e.message)
+    }
+}
+
+const signInWithFacebook = async () => {
+    try {
+        const res = await signInWithPopup(auth, facebookProvider)
+        const user = res.user
+        const q = query(collection(db, "users"), where('uid', '==', user.uid))
+        const docs = await getDocs(q)
+        if(docs.docs.length === 0) {
+            const docRef = doc(collection(db, "users"))
+            await setDoc(docRef, {
+                uid: user.uid,
+                name: user.displayName,
+                authProvider: "facebook",
+                email: user.email
+            })
+        }
+    } catch(e) {
+        console.log(e)
+        alert(e.message)
+        
     }
 }
 
@@ -100,6 +125,7 @@ export {
     auth,
     db,
     signInWithGoogle,
+    signInWithFacebook,
     loginWithEmailAndPassword,
     registerWithEmailAndPassword,
     sendPasswordReset,

@@ -28,6 +28,9 @@
   .login__google {
     background-color: #4285f4;
   }
+  .login__fb {
+    background-color: #1d0ef0;
+  }
   .login div {
     margin-top: 7px;
   }

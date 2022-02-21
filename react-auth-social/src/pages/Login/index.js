@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { auth, loginWithEmailAndPassword, signInWithGoogle } from '../../firebase'
+import { auth, loginWithEmailAndPassword, signInWithGoogle, signInWithFacebook } from '../../firebase'
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthState } from 'react-firebase-hooks/auth'
 import './style.css'
@@ -52,6 +52,12 @@ export const Login = () => {
                     onClick={() => signInWithGoogle()}
                 >
                     Login with Google
+                </button>
+                <button
+                    className='login__btn login__fb'
+                    onClick={() => signInWithFacebook()}
+                >
+                    Login with facebook
                 </button>
                 <div>
                     <Link to="/reset">Forgot password</Link>
