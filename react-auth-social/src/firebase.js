@@ -3,11 +3,13 @@ import {
     GoogleAuthProvider,
     signInWithPopup,
     signInWithEmailAndPassword,
+    signInWithPhoneNumber,
     createUserWithEmailAndPassword,
     sendPasswordResetEmail,
     signOut,
     getAuth,
-    FacebookAuthProvider
+    FacebookAuthProvider,
+    RecaptchaVerifier
 } from 'firebase/auth'
 
 import {
@@ -35,9 +37,24 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
 const db = getFirestore(app)
-
 const googleProvider = new GoogleAuthProvider()
 const facebookProvider = new FacebookAuthProvider()
+
+// const verify = new RecaptchaVerifier('recaptcha-container', {
+//     'size': "invisible"
+// }, auth)
+const loginWithPhoneNumber = async (phoneNumber) => {
+    try {
+        const appVerifier = new RecaptchaVerifier('recaptcha-container', {
+            'size': 'invisible'
+        }, auth);
+        const res = await signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+        return res
+    } catch (e) {
+        console.log(e)
+        alert(e.message)
+    }
+}
 
 const signInWithGoogle = async () => {
     try {
@@ -129,5 +146,6 @@ export {
     loginWithEmailAndPassword,
     registerWithEmailAndPassword,
     sendPasswordReset,
+    loginWithPhoneNumber,
     logout
 }

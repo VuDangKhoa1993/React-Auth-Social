@@ -10,7 +10,6 @@ export const Login = () => {
     const [user, loading, error] = useAuthState(auth)
     const navigate = useNavigate()
 
-
     useEffect(() => {
         if (loading) {
             // maybe trigger a loading page
@@ -43,9 +42,16 @@ export const Login = () => {
                 />
                 <button
                     className='login__btn'
+                    id='login__btn'
                     onClick={() => loginWithEmailAndPassword(email, password)}
                 >
                     Login
+                </button>
+                <button
+                    className='login__btn login__google'
+                    onClick={() => navigate('/login-by-sms')}
+                >
+                    Login by SMS
                 </button>
                 <button
                     className='login__btn login__google'

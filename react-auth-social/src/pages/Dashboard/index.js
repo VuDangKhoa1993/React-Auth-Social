@@ -41,7 +41,6 @@ export const Dashboard = () => {
         fetchUserName()
     }, [loading, user])
 
-
     return (
         <>
             <div className="dashboard">
